@@ -62,3 +62,7 @@ jobs:
 ```
 
 The site must be in a `docs` directory with a `package-lock.json` file and a `docs:build` npm script that writes the site to `docs/.vitepress/dist`.
+
+## Agent instructions
+
+The `agents/shared.md` file holds the sections shared by the `AGENTS.md` files of sage, shard, proteus, purelogic and caliban. Each library's `AGENTS.md` starts with a section specific to that repository, followed by a copy of this file. To change a shared section, edit `agents/shared.md` here and copy the change to each library.
