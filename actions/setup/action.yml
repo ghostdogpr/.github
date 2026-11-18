@@ -1,0 +1,30 @@
+name: Setup Scala build
+description: Checks out the repository, restores the Coursier cache, and installs a Temurin JDK and sbt.
+
+inputs:
+  java-version:
+    description: The Temurin JDK version to install.
+    required: false
+    default: '25'
+  fetch-depth:
+    description: The number of commits to fetch. The default of 0 fetches the full history, which sbt-ci-release and sbt-dynver need to compute the version from tags.
+    required: false
+    default: '0'
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout current branch
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
+    # The cache key is computed from the build files, so this step must run after the checkout.
+    - name: Cache scala dependencies
+      uses: coursier/cache-action@v8
+    - name: Setup Java
+      uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java-version }}
+    - name: Setup sbt
+      uses: sbt/setup-sbt@v1
